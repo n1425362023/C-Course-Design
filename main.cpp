@@ -246,7 +246,7 @@ void RoomDataWriteIn(){
 }
 void GuestDataWriteIn(){
     ofstream outfile;
-    outfile.open("./GuestData.csv",ios::app|ios::out);
+    outfile.open("./GuestData.csv",ios::out);
     if(!outfile.is_open()){
         cout<<"open file failed"<<endl;
         exit(1);
@@ -274,11 +274,13 @@ void menu(){
             case 1:
                 checkin();
                 RoomDataWriteIn();
+                GuestDataWriteIn();
                 Sleep(3000);
                 system("cls");
                 break;
             case 2:
                 checkout();
+                RoomDataWriteIn();
                 GuestDataWriteIn();
                 Sleep(3000);
                 system("cls");
