@@ -145,6 +145,7 @@ void checkin(){
                     system("cls");
                     continue;
                 }else{
+                    room[i].RoomStatus="false";
                     cout<<"Room is available"<<endl;
                     Sleep(3000);
                     system("cls");
@@ -172,20 +173,6 @@ void checkin(){
                     Guest tmp(name,id,room[i].getRoomNumberList(),day,room[i].getPrice()*day);
                     guest.push_back(tmp);
 
-
-                    ofstream outfile;
-                    outfile.open("./HistoryData.csv",ios::app|ios::out);
-                    if(!outfile.is_open()){
-                        cout<<"open file failed"<<endl;
-                        exit(1);
-                    }else{
-                        time_t now = time(0);
-                        // 把 now 转换为字符串形式
-                        char* dt = ctime(&now);
-                        outfile<<tmp.getname()<<","<<tmp.getid()<<","<<tmp.getRoomNumber()<<","<<room[i].getRoomType()
-                        <<","<<tmp.getLiveDay()<<","<<tmp.getcharge()<<","<<dt<<endl;
-                        outfile.close();
-                    }
                     return ;
                 }
             }
@@ -223,6 +210,20 @@ void checkout(){
                             cout << "Length of stay:" << guest[j].getLiveDay() << endl;
                             cout << "Guest charge($):" << guest[j].getcharge() << endl;
                             room[i].RoomStatus ="true" ;
+
+                            ofstream outfile;
+                            outfile.open("./HistoryData.csv",ios::app|ios::out);
+                            if(!outfile.is_open()){
+                                cout<<"open file failed"<<endl;
+                                exit(1);
+                            }else{
+                                time_t now = time(0);
+                                // 把 now 转换为字符串形式
+                                char* dt = ctime(&now);
+                                outfile<<guest[j].getname()<<","<<guest[j].getid()<<","<<guest[j].getRoomNumber()<<","<<room[i].getRoomType()
+                                       <<","<<guest[j].getLiveDay()<<","<<guest[j].getcharge()<<","<<dt<<endl;
+                                outfile.close();
+                            }
                             guest.erase(guest.begin()+j);
                         }
                     }
@@ -296,6 +297,7 @@ void roomInformationInquiry(){
                             cout << "The room is idle" << endl;
                             Sleep(3000);
                             system("cls");
+                            return;
                         } else {
                             cout << "Room number:" << room[i].getRoomNumberList() << endl;
                             cout << "Room type:" << room[i].getRoomType() << endl;
@@ -408,6 +410,11 @@ void informationChanges(){
                                             cin.ignore(numeric_limits<streamsize>::max(), '\n');
                                             break;
                                     }
+
+
+
+
+
                                 }
                             }
                         }
@@ -424,8 +431,10 @@ void informationChanges(){
                     if (guest[i].getname() == name) {
                         int selection;
                         cout<<"Room number:"<<guest[i].getRoomNumber()<<endl;
-                        cout<<"Guest's ID:"<<guest[i].getid()<<endl;
-                        cout<<"Length of stay:"<<guest[i].getLiveDay()<<endl;
+                        cout<<"1.Guest's name:"<<guest[i].getname()<<endl;
+                        cout<<"2.Guest's ID:"<<guest[i].getid()<<endl;
+                        cout<<"3.Length of stay:"<<guest[i].getLiveDay()<<endl;
+                        cout<<"4.Cancel"<<endl;
                         cout<<"Which information you want to change:";
                         cin>>selection;
                         string id;
@@ -456,7 +465,7 @@ void informationChanges(){
                                 }
                                 break;
                             case 4:
-                                break;
+                                continue;
                             default:
                                 cout << "please input the right number" << endl;
                                 cin.clear(); // 清除错误标志
@@ -485,7 +494,7 @@ void SpareRoomSearch(){
                 <<room[i].getPrice()<<endl;
         }
     }
-    cin.get();
+    system("pause");
 }
 void history(){
     ifstream  infile("./HistoryData.csv",ios::in);
@@ -495,7 +504,7 @@ void history(){
     }else{
         //cout<<"open file success"<<endl;
         string line;
-        cout<<"NAME \tID \t\tROOM NUMBER \t\tROOM TYPE \t\tLIVE DAY\tCHARGE($)\tTIME"<<endl;
+        cout<<"NAME \tID \t\tROOM NUMBER \tROOM TYPE \tLIVE DAY\tCHARGE($)\tTIME"<<endl;
         while(getline(infile,line)){
             stringstream ss(line);
             string token;
@@ -506,20 +515,21 @@ void history(){
                 }else if(count==1){
                     cout<<token<<"\t";
                 }else if(count==2){
-                    cout<<stoi(token)<<"\t";
+                    cout<<stoi(token)<<"\t\t";
                 }else if(count==3){
                     cout<<token<<"\t";
                 }else if(count==4){
-                    cout<<stoi(token)<<"\t";
+                    cout<<stoi(token)<<"\t\t";
                 }else if(count==5){
-                    cout<<stoi(token)<<"\t";
+                    cout<<stoi(token)<<"\t\t";
                 }else if(count==6){
-                    cout<<stoi(token)<<"\t"<<endl;
+                    cout<<token<<endl;
                 }
                 count++;
             }
         }
         infile.close();
+        system("pause");
     }
 }
 void menu(){
