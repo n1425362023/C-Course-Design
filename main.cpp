@@ -307,6 +307,7 @@ void roomInformationInquiry(){
                                     cout << "Guest ID:" << guest[j].getid() << endl;
                                     cout << "Length of stay:" << guest[j].getLiveDay() << endl;
                                     cout << "Guest charge($):" << guest[j].getcharge() << endl;
+                                    return; 
                                 }
                             }
                         }
@@ -325,6 +326,7 @@ void roomInformationInquiry(){
                     cout<<"Guest ID:"<<guest[i].getid()<<endl;
                     cout<<"Length of stay:"<<guest[i].getLiveDay()<<endl;
                     cout<<"Guest charge($):"<<guest[i].getcharge()<<endl;
+                    return;
                 }
             }
             cout<<"Not found"<<endl;
@@ -504,7 +506,7 @@ void history(){
     }else{
         //cout<<"open file success"<<endl;
         string line;
-        cout<<"NAME \tID \t\tROOM NUMBER \tROOM TYPE \tLIVE DAY\tCHARGE($)\tTIME"<<endl;
+        cout<<"NAME \tID \t\tROOM NUMBER \tROOM TYPE \tLIVE DAY\tCHARGE($)\tLEAVE TIME"<<endl;
         while(getline(infile,line)){
             stringstream ss(line);
             string token;
