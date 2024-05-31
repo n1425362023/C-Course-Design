@@ -319,6 +319,7 @@ void roomInformationInquiry(){
             }
         }else if(choice==2){
             string name;
+            cout<<"Guest name:";
             cin>>name;
             for(int i=0;i<guest.size();i++){
                 if(guest[i].getname()==name){
